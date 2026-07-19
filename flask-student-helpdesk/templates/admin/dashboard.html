@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Student Help Desk{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <div class="dashboard-header">
+        <h1>Complaint Management</h1>
+        <p>View and manage all student complaints</p>
+    </div>
+    
+    <div class="stats-row">
+        <div class="stat-card">
+            <span class="stat-number">{{ complaints|selectattr('status', 'equalto', 'Pending')|list|length }}</span>
+            <span class="stat-label">Pending</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">{{ complaints|selectattr('status', 'equalto', 'In Progress')|list|length }}</span>
+            <span class="stat-label">In Progress</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">{{ complaints|selectattr('status', 'equalto', 'Resolved')|list|length }}</span>
+            <span class="stat-label">Resolved</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">{{ complaints|length }}</span>
+            <span class="stat-label">Total</span>
+        </div>
+    </div>
+    
+    {% if complaints %}
+        <div class="admin-complaints-list">
+            {% for complaint in complaints %}
+                <div class="admin-complaint-card">
+                    <div class="complaint-header">
+                        <div class="complaint-info">
+                            <span class="complaint-category">{{ complaint.category }}</span>
+                            <span class="complaint-id">#{{ complaint.id }}</span>
+                        </div>
+                        <span class="complaint-status status-{{ complaint.status|lower|replace(' ', '-') }}">
+                            {{ complaint.status }}
+                        </span>
+                    </div>
+                    
+                    <div class="student-info">
+                        <strong>{{ complaint.student_name }}</strong>
+                        <span>Roll: {{ complaint.student_roll }}</span>
+                    </div>
+                    
+                    <div class="complaint-body">
+                        <p class="complaint-message">{{ complaint.message }}</p>
+                    </div>
+                    
+                    <div class="complaint-actions">
+                        <span class="complaint-date">{{ complaint.created_at }}</span>
+                        
+                        {% if not complaint.admin_id %}
+                            <form method="POST" action="{{ url_for('admin_take_complaint', complaint_id=complaint.id) }}" class="inline-form">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    Take Responsibility
+                                </button>
+                            </form>
+                        {% elif complaint.admin_id == session.get('admin_id') %}
+                            <form method="POST" action="{{ url_for('admin_update_status', complaint_id=complaint.id) }}" class="status-form">
+                                <select name="status" onchange="this.form.submit()">
+                                    <option value="Pending" {% if complaint.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="In Progress" {% if complaint.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                                    <option value="Resolved" {% if complaint.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                                </select>
+                            </form>
+                        {% else %}
+                            <span class="assigned-to">Assigned to: {{ complaint.assigned_admin }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">📋</div>
+            <h2>No Complaints</h2>
+            <p>There are no complaints in the system yet.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

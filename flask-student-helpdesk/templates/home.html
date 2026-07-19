@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Student Help Desk - Home{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Student Help Desk</h1>
+        <p class="hero-subtitle">Official College Complaint Management System</p>
+        <p class="hero-description">
+            Raise and track complaints related to hostel, academics, transport, 
+            infrastructure, or general college services transparently.
+        </p>
+        
+        <div class="role-cards">
+            <a href="{{ url_for('student_login') }}" class="role-card role-student">
+                <div class="role-icon">👨‍🎓</div>
+                <h2>Student Portal</h2>
+                <p>Submit complaints and track their resolution status</p>
+                <span class="role-btn">Login as Student →</span>
+            </a>
+            
+            <a href="{{ url_for('admin_login') }}" class="role-card role-admin">
+                <div class="role-icon">👨‍💼</div>
+                <h2>Admin Portal</h2>
+                <p>Manage and resolve student complaints</p>
+                <span class="role-btn">Login as Admin →</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<section class="features">
+    <h2 class="section-title">How It Works</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3>Submit Complaint</h3>
+            <p>Students can easily submit complaints under various categories</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">👁️</div>
+            <h3>Track Status</h3>
+            <p>Real-time tracking of complaint status and assigned admin</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">✅</div>
+            <h3>Get Resolution</h3>
+            <p>Transparent process from submission to resolution</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

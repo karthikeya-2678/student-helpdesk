@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Student Help Desk{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="dashboard-header">
+        <h1>Welcome, {{ student_name }}</h1>
+        <p>Select a category to submit a complaint</p>
+    </div>
+    
+    <div class="category-grid">
+        <a href="{{ url_for('student_complaint', category='Hostel') }}" class="category-card">
+            <div class="category-icon">🏠</div>
+            <h3>Hostel</h3>
+            <p>Room issues, facilities, mess, etc.</p>
+        </a>
+        
+        <a href="{{ url_for('student_complaint', category='Academics') }}" class="category-card">
+            <div class="category-icon">📚</div>
+            <h3>Academics</h3>
+            <p>Courses, exams, faculty, etc.</p>
+        </a>
+        
+        <a href="{{ url_for('student_complaint', category='Transport') }}" class="category-card">
+            <div class="category-icon">🚌</div>
+            <h3>Transport</h3>
+            <p>Bus services, routes, timings, etc.</p>
+        </a>
+        
+        <a href="{{ url_for('student_complaint', category='Infrastructure') }}" class="category-card">
+            <div class="category-icon">🏗️</div>
+            <h3>Infrastructure</h3>
+            <p>Buildings, labs, equipment, etc.</p>
+        </a>
+        
+        <a href="{{ url_for('student_complaint', category='Other') }}" class="category-card">
+            <div class="category-icon">📋</div>
+            <h3>Other</h3>
+            <p>General complaints and suggestions</p>
+        </a>
+    </div>
+    
+    <div class="dashboard-actions">
+        <a href="{{ url_for('student_complaints') }}" class="btn btn-secondary">
+            View My Complaints →
+        </a>
+    </div>
+</div>
+{% endblock %}
